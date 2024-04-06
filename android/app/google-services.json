@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "371307768271",
+    "project_id": "sapfd-80a0a",
+    "storage_bucket": "sapfd-80a0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371307768271:android:baf211d4d6d64d61140aba",
+        "android_client_info": {
+          "package_name": "com.example.sapfd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiocXK62Yg5LJfRlm7f5RwuZVIQ7yA1YA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
