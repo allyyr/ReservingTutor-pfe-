@@ -19,14 +19,14 @@ class universityView extends StatelessWidget {
       ),
       body: Column(
         children: [
-           SizedBox(
-            height: size.height *0.009,
+          SizedBox(
+            height: size.height * 0.009,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const SizedBox(),
-              GestureDetector(
+              /*  GestureDetector(
                 onTap: () {},
                 child: const chooseLevel(
                   level: '1LIC',
@@ -44,41 +44,38 @@ class universityView extends StatelessWidget {
                   level: '3LIC',
                 ),
               ),
-               GestureDetector(
+              GestureDetector(
                 onTap: () {},
                 child: const chooseLevel(
                   level: '1MAS',
                 ),
               ),
-               GestureDetector(
+              GestureDetector(
                 onTap: () {},
                 child: const chooseLevel(
                   level: '2MAS',
                 ),
               ),
-              
               const Divider(),
               GestureDetector(
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 child: Container(
-                  height: size.height*0.03,
-                  width: size.height*0.04,
+                  height: size.height * 0.03,
+                  width: size.height * 0.04,
                   decoration: BoxDecoration(
                     color: AppColors.white,
                   ),
                   child: Icon(
                     Icons.filter_none,
                     color: AppColors.blue,
-                    ),
+                  ),
                 ),
-              ),
+              ),*/
               const SizedBox(),
             ],
           ),
-           SizedBox(
-            height: size.height*0.01,
+          SizedBox(
+            height: size.height * 0.01,
           ),
           const Divider(),
           SizedBox(
@@ -89,20 +86,18 @@ class universityView extends StatelessWidget {
               mainAxisSpacing: 15,
               crossAxisCount: 1,
               children: [
-                for (int i=0 ; i<10 ; i++)
-                drAnnonce(
-                    onTap: () {
-                      
-                    },
+                for (int i = 0; i < 10; i++)
+                  drAnnonce(
+                    onTap: () {},
                     image: 'images/highSchool.png',
                     nom: 'Taleb salaheddine',
-                    description: 'docteur.....',
                     nomModule: 'Math',
+                    availability: false,
+
                     prix: '2000 DA',
-                    nbrHours: '8',
-                    niveau: '4AP'),
-               
-                
+                    // nbrHours: '8',
+                    // niveau: '4AP'
+                  ),
               ],
             ),
           ),

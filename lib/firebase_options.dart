@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB9QcR8Du2HRGsNbDOAa2FCy4kFU9xD3II',
-    appId: '1:371307768271:web:d803788121d0fff3140aba',
-    messagingSenderId: '371307768271',
-    projectId: 'sapfd-80a0a',
-    authDomain: 'sapfd-80a0a.firebaseapp.com',
-    storageBucket: 'sapfd-80a0a.appspot.com',
-    measurementId: 'G-NZW4XWW2L0',
+    apiKey: 'AIzaSyDlCGW1KeFvjUTmzV7GZH5A2qq6Pf4vgvk',
+    appId: '1:838923326580:web:1ad29da2c703d101cb2d21',
+    messagingSenderId: '838923326580',
+    projectId: 'futur-6d31c',
+    authDomain: 'futur-6d31c.firebaseapp.com',
+    storageBucket: 'futur-6d31c.appspot.com',
+    measurementId: 'G-WX7YQSC2ES',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAiocXK62Yg5LJfRlm7f5RwuZVIQ7yA1YA',
-    appId: '1:371307768271:android:baf211d4d6d64d61140aba',
-    messagingSenderId: '371307768271',
-    projectId: 'sapfd-80a0a',
-    storageBucket: 'sapfd-80a0a.appspot.com',
+    apiKey: 'AIzaSyCU2gF9DrDf7Ae8rCrWFfpBDJxsxSvPDcQ',
+    appId: '1:838923326580:android:252dd09258c865bccb2d21',
+    messagingSenderId: '838923326580',
+    projectId: 'futur-6d31c',
+    storageBucket: 'futur-6d31c.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBs03XNeeHus-gpFcIWsV5Hb79R48jSdXA',
-    appId: '1:371307768271:ios:9212ca743d0ac9a3140aba',
-    messagingSenderId: '371307768271',
-    projectId: 'sapfd-80a0a',
-    storageBucket: 'sapfd-80a0a.appspot.com',
+    apiKey: 'AIzaSyBU6_feWsAHxfIYf9J2b-lFyA00GXYVaPQ',
+    appId: '1:838923326580:ios:23b2e8dab7861e4bcb2d21',
+    messagingSenderId: '838923326580',
+    projectId: 'futur-6d31c',
+    storageBucket: 'futur-6d31c.appspot.com',
     iosBundleId: 'com.example.sapfd',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBs03XNeeHus-gpFcIWsV5Hb79R48jSdXA',
-    appId: '1:371307768271:ios:86bd0109e7ab1083140aba',
-    messagingSenderId: '371307768271',
-    projectId: 'sapfd-80a0a',
-    storageBucket: 'sapfd-80a0a.appspot.com',
+    apiKey: 'AIzaSyBU6_feWsAHxfIYf9J2b-lFyA00GXYVaPQ',
+    appId: '1:838923326580:ios:ecf6cd78943c25f8cb2d21',
+    messagingSenderId: '838923326580',
+    projectId: 'futur-6d31c',
+    storageBucket: 'futur-6d31c.appspot.com',
     iosBundleId: 'com.example.sapfd.RunnerTests',
   );
 }

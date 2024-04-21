@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -7,7 +8,8 @@ import 'package:sapfd/view/notification_view.dart';
 
 // ignore: must_be_immutable
 class ControlView extends StatelessWidget {
-  const ControlView({super.key, required this.titre});
+  const ControlView(
+      {super.key, required this.titre, required Map<String, dynamic> userData});
   final String titre;
 
   @override
@@ -62,7 +64,12 @@ class ControlView extends StatelessWidget {
             ),
             onPressed: () {
               Get.to(const Notification_view());
-            })
+            }),
+        /*   IconButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+            },
+            icon: Icon(Icons.exit_to_app)) */
       ],
       backgroundColor: AppColors.blue,
       title: Column(
@@ -76,7 +83,6 @@ class ControlView extends StatelessWidget {
               fontWeight: FontWeight.normal,
             ),
           ),
-          
         ],
       ),
     );

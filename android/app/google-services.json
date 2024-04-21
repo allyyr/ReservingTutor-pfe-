@@ -1,13 +1,51 @@
 {
   "project_info": {
-    "project_number": "371307768271",
-    "project_id": "sapfd-80a0a",
-    "storage_bucket": "sapfd-80a0a.appspot.com"
+    "project_number": "838923326580",
+    "project_id": "futur-6d31c",
+    "storage_bucket": "futur-6d31c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:371307768271:android:baf211d4d6d64d61140aba",
+        "mobilesdk_app_id": "1:838923326580:android:7a4ca9004b154454cb2d21",
+        "android_client_info": {
+          "package_name": "com.example.logun"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU2gF9DrDf7Ae8rCrWFfpBDJxsxSvPDcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838923326580:android:7b5d0299004303b5cb2d21",
+        "android_client_info": {
+          "package_name": "com.example.pf1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU2gF9DrDf7Ae8rCrWFfpBDJxsxSvPDcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838923326580:android:252dd09258c865bccb2d21",
         "android_client_info": {
           "package_name": "com.example.sapfd"
         }
@@ -15,7 +53,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAiocXK62Yg5LJfRlm7f5RwuZVIQ7yA1YA"
+          "current_key": "AIzaSyCU2gF9DrDf7Ae8rCrWFfpBDJxsxSvPDcQ"
         }
       ],
       "services": {

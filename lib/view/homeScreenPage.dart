@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sapfd/util/custom_element.dart';
 import 'package:sapfd/view/chat_view.dart';
-import 'package:sapfd/view/high_school_view.dart';
-import 'package:sapfd/view/middle_school_view.dart';
-import 'package:sapfd/view/primary_school_view.dart';
-import 'package:sapfd/view/university_view.dart';
+import 'package:sapfd/view/levels_view/high_school_view.dart';
+import 'package:sapfd/view/levels_view/middle_school_view.dart';
+import 'package:sapfd/view/levels_view/primary_school_view.dart';
+import 'package:sapfd/view/levels_view/university_view.dart';
 
 // ignore: camel_case_types
 class homeScreenPage extends StatefulWidget {
@@ -58,7 +58,7 @@ class _homeScreenPageState extends State<homeScreenPage> {
                         children: const [
                           ChoseModuleButton(
                               image: 'images/highSchool.png',
-                              text: 'gasdgfds',
+                              text: 'Primary',
                               ontPGoWidget: primaryView()),
                           ChoseModuleButton(
                               image: 'images/highSchool.png',

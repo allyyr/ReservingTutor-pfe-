@@ -20,13 +20,13 @@ class ControlViewModel extends GetxController {
         }
       case 1:
         {
-          _currentScreen = const MapHomeView();
+          _currentScreen = const CityMap();
           break;
         }
       case 2:
         {
-          _currentScreen =  ProfileHomeView();
-          
+          _currentScreen = ProfileHomeView();
+
           break;
         }
     }

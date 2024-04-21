@@ -38,9 +38,9 @@ class CustomLoginButton extends StatelessWidget {
 }
 
 class CustomTextFiel extends StatelessWidget {
-  const CustomTextFiel({super.key, required this.pass, this.controller});
+  const CustomTextFiel({super.key, required this.pass, this.mycontroller});
   final String pass;
-  final TextEditingController? controller;
+  final TextEditingController? mycontroller;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +49,7 @@ class CustomTextFiel extends StatelessWidget {
       decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey))),
       child: TextField(
+          controller: mycontroller,
           decoration: InputDecoration(
               hintText: pass,
               hintStyle: const TextStyle(color: Colors.grey),
@@ -60,8 +61,9 @@ class CustomTextFiel extends StatelessWidget {
 
 // ignore: camel_case_types
 class champText extends StatelessWidget {
-  const champText({super.key, required this.Teext});
+  const champText({super.key, required this.Teext, this.mycontroller});
   final String Teext;
+  final TextEditingController? mycontroller;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,7 @@ class champText extends StatelessWidget {
       decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.grey))),
       child: TextField(
+        controller: mycontroller,
         decoration: InputDecoration(
             hintText: Teext,
             hintStyle: const TextStyle(color: Colors.grey),
@@ -227,8 +230,10 @@ class chooseLevel extends StatelessWidget {
   const chooseLevel({
     super.key,
     required this.level,
+    required this.isSelected,
   });
   final String level;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -236,6 +241,12 @@ class chooseLevel extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: AppColors.blue,
+        border: Border.all(
+          color: isSelected
+              ? Color.fromARGB(255, 2, 39, 25)
+              : Colors.transparent, // Update border color based on isSelected
+          width: 4, // Border width
+        ),
       ),
       width: 70,
       height: 50,
@@ -256,229 +267,235 @@ class drAnnonce extends StatelessWidget {
     super.key,
     required this.image,
     required this.nom,
-    required this.description,
+    // required this.description,
     required this.nomModule,
     required this.prix,
-    required this.nbrHours,
-    required this.niveau,
+    //required this.nbrHours,
+    //required this.niveau,
     required this.onTap,
     this.widht,
+    required this.availability,
   });
 
   final double? widht;
-  final String image, nom, description, nomModule, prix, nbrHours, niveau;
+  final String image, nom, nomModule, prix; //nbrHours, niveau description,
+  final bool availability;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.blue, width: 2),
-        color: Colors.white,
-      ),
-      child: Column(
-        children: [
-          SizedBox(
-            height: size.height * 0.002,
-            width: size.width * 0.01,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                height: size.height * 0.01,
-                width: size.width * 0.01,
-              ),
-              Container(
-                height: size.height * 0.09,
-                width: size.width * 0.2,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  //borderRadius: BorderRadius.circular(40),
-                  color: Colors.black,
-                  border: Border.all(color: AppColors.blue, width: 2),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.blue, width: 2),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height * 0.002,
+              width: size.width * 0.01,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  height: size.height * 0.01,
+                  width: size.width * 0.01,
                 ),
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage('images/highSchool.png'),
+                Container(
+                  height: size.height * 0.09,
+                  width: size.width * 0.2,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    border: Border.all(color: AppColors.blue, width: 2),
+                  ),
+                  child: const CircleAvatar(
+                    backgroundImage: AssetImage('images/highSchool.png'),
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: size.width * 0.1,
-              ),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      nom,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                SizedBox(
+                  width: size.width * 0.1,
+                ),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        nom,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
-                    Text(
-                      description,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                      ),
-                    )
-                  ],
+                      Text(
+                        availability ? 'Available' : 'Not Available',
+                        style: TextStyle(
+                          color: availability ? Colors.green : Colors.red,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const Divider(),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: size.width * 0.035,
-              ),
-              const Text(
-                'Module :',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+              ],
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
                 ),
-              ),
-              Text(
-                nomModule,
-                style: TextStyle(
-                  color: AppColors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                const Text(
+                  'Module :',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: size.width * 0.035,
-              ),
-              const Text(
-                'Price :',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                Text(
+                  nomModule,
+                  style: TextStyle(
+                    color: AppColors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
                 ),
-              ),
-              Text(
-                prix,
-                style: TextStyle(
-                  color: AppColors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                const Text(
+                  'Price :',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: size.width * 0.035,
-              ),
-              const Text(
-                'Number Of Hours : ',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                Text(
+                  prix + ' DA', // Concatenate "DA" after prix
+                  style: TextStyle(
+                    color: AppColors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              Text(
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
+                const Text(
+                  'Number Of Hours : ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                /*Text(
                 nbrHours,
                 style: TextStyle(
                   color: AppColors.green,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: size.width * 0.035,
-              ),
-              const Text(
-                'Level :',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+              )*/
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: size.width * 0.035,
                 ),
-              ),
-              Text(
+                const Text(
+                  'Level :',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+
+                /*  Text(
                 niveau,
                 style: TextStyle(
                   color: AppColors.green,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
-              )
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  child: const Center(
-                    child: Text(
-                      'Call',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+              )*/
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    print("CALL PRESSEEEEEEED");
+                  },
+                  child: Container(
+                    child: const Center(
+                      child: Text(
+                        'Call',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.blue,
+                    ),
+                    width: size.height * 0.1,
+                    height: size.width * 0.085,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.37,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.blue,
+                    ),
+                    width: size.height * 0.1,
+                    height: size.width * 0.085,
+                    child: const Center(
+                      child: Text(
+                        'Réserver',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppColors.blue,
-                  ),
-                  width: size.height * 0.1,
-                  height: size.width * 0.085,
                 ),
-              ),
-              SizedBox(
-                width: size.width * 0.37,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppColors.blue,
-                  ),
-                  width: size.height * 0.1,
-                  height: size.width * 0.085,
-                  child: const Center(
-                    child: Text(
-                      'Réserver',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                SizedBox(
+                  width: size.width * 0.047,
                 ),
-              ),
-              SizedBox(
-                width: size.width * 0.047,
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

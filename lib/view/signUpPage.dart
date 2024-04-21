@@ -1,13 +1,24 @@
 // ignore_for_file: file_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sapfd/login%20component/login.dart';
 import 'package:sapfd/util/custom_element.dart';
+import 'package:sapfd/view/controll_view.dart';
+import 'package:sapfd/view/homeScreenPage.dart';
 import 'package:sapfd/view/loginPage.dart';
 
 // ignore: camel_case_types
 class signUpPage extends StatelessWidget {
-  const signUpPage({super.key});
+  signUpPage({super.key});
+  TextEditingController email = TextEditingController();
+  TextEditingController phoneNum = TextEditingController();
+  TextEditingController firstname = TextEditingController();
+  TextEditingController lastname = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController passwordConfirm = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +32,8 @@ class signUpPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               SizedBox(
-                height: size.height*0.02,
+              SizedBox(
+                height: size.height * 0.02,
               ),
               const Padding(
                 padding: EdgeInsets.all(20),
@@ -36,8 +47,8 @@ class signUpPage extends StatelessWidget {
                   ],
                 ),
               ),
-               SizedBox(
-                height: size.height*0.03,
+              SizedBox(
+                height: size.height * 0.03,
               ),
               Container(
                 decoration: const BoxDecoration(
@@ -51,8 +62,8 @@ class signUpPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                       SizedBox(
-                        height: size.height*0.03,
+                      SizedBox(
+                        height: size.height * 0.03,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -64,34 +75,109 @@ class signUpPage extends StatelessWidget {
                                   blurRadius: 20,
                                   offset: Offset(0, 10))
                             ]),
-                        child: const Column(
+                        child: Column(
                           children: [
-                            champText(Teext: "Email"),
-                            champText(Teext: "Phone Number"),
-                            champText(Teext: "First Name"),
-                            champText(Teext: "Family Name"),
-                            CustomTextFiel(pass: "Password"),
-                            CustomTextFiel(pass: "Confirm Password"),
+                            champText(
+                              Teext: "Email",
+                              mycontroller: email,
+                            ),
+                            champText(
+                              Teext: "Phone Number",
+                              mycontroller: phoneNum,
+                            ),
+                            champText(
+                              Teext: "First Name",
+                              mycontroller: firstname,
+                            ),
+                            champText(
+                              Teext: "Family Name",
+                              mycontroller: lastname,
+                            ),
+                            CustomTextFiel(
+                              pass: "Password",
+                              mycontroller: password,
+                            ),
+                            /* CustomTextFiel(
+                              pass: "Confirm Password",
+                              mycontroller: passwordConfirm,
+                            ), */
                           ],
                         ),
                       ),
-                       SizedBox(
-                        height: size.height*0.045,
+                      SizedBox(
+                        height: size.height * 0.045,
                       ),
                       CustomLoginButton(
                         title: "Signup",
-                        onnPressed: () {},
+                        onnPressed: () async {
+                          // Trim whitespace from the email and validate format
+                          final trimmedEmail = email.text.trim();
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(trimmedEmail)) {
+                            print('Invalid email format');
+                            return; // Exit the signup process if email format is invalid
+                          }
+
+                          try {
+                            final credential = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: trimmedEmail,
+                              password: password
+                                  .text, // Use password.text to get the entered password
+                            );
+                            print('Signup successful');
+                            if (credential != null) {
+                              // Save user data to Firestore
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(credential.user!.uid)
+                                  .set({
+                                'email': trimmedEmail,
+                                'password': password.text,
+                                'phoneNum': phoneNum.text,
+                                'firstName': firstname.text,
+                                'lastName': lastname.text
+                                // Use password.text to get the entered password
+                                // Add more user data fields as needed
+                              });
+
+                              // Navigate to the home screen
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ControlView(
+                                    titre: 'Home',
+                                    userData: {},
+                                  ),
+                                ),
+                              );
+                            }
+                          } on FirebaseAuthException catch (e) {
+                            // Handle FirebaseAuth exceptions
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                            } else if (e.code == 'email-already-in-use') {
+                              print(
+                                  'The account already exists for that email.');
+                            } else {
+                              print('Error during signup: ${e.message}');
+                            }
+                          } catch (e) {
+                            // Handle other exceptions
+                            print('Error during signup: $e');
+                          }
+                        },
                       ),
-                       SizedBox(
-                        height: size.height*0.025,
+                      SizedBox(
+                        height: size.height * 0.025,
                       ),
                       GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                            Get.to(() => HomePage(),
+                                    builder: (context) => login()));
+                            Get.to(() => login(),
                                 transition: Transition.leftToRight,
                                 duration: const Duration(milliseconds: 599));
                           },
@@ -99,7 +185,7 @@ class signUpPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'already has account ?',
+                                'already have account ?',
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 15),
                               ),
