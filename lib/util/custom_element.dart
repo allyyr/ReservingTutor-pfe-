@@ -1,18 +1,26 @@
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sapfd/util/color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chargily_pay/chargily_pay.dart';
+import 'package:chargily_pay/src/models/checkout.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomLoginButton extends StatelessWidget {
   const CustomLoginButton(
       {super.key,
       required this.title,
       this.backGrounfdColor,
-      required this.onnPressed});
+      required this.onnPressed,
+      this.phoneNumber});
   final String title;
   final Color? backGrounfdColor;
   final VoidCallback onnPressed;
+  final int? phoneNumber;
   @override
   Widget build(BuildContext context) {
     var taille = MediaQuery.of(context).size;
@@ -275,12 +283,14 @@ class drAnnonce extends StatelessWidget {
     required this.onTap,
     this.widht,
     required this.availability,
+    this.phoneNumber,
   });
 
   final double? widht;
   final String image, nom, nomModule, prix; //nbrHours, niveau description,
   final bool availability;
   final VoidCallback onTap;
+  final String? phoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -446,7 +456,8 @@ class drAnnonce extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print("CALL PRESSEEEEEEED");
+                    // Replace 'phoneNumber' with the actual phone number of the tutor
+                    _makePhoneCall(phoneNumber!);
                   },
                   child: Container(
                     child: const Center(
@@ -470,7 +481,44 @@ class drAnnonce extends StatelessWidget {
                   width: size.width * 0.37,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    // If the teacher is available
+                    if (availability) {
+                      // Show confirmation dialog
+                      bool? isConfirmed = await AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.info,
+                        animType: AnimType.topSlide,
+                        title: 'Confirmation',
+                        desc: 'Are you sure you want to make a reservation?',
+                        btnOkOnPress: () async {
+                          // If the user confirmed the reservation
+                          // Show reservation confirmation message
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.info,
+                            animType: AnimType.topSlide,
+                            title: 'Reservation Request Sent!',
+                            desc:
+                                'Your reservation request has been sent successfully. We will send you a link for payment shortly, or you can come to the office.',
+                          )..show();
+                        },
+                        btnCancelOnPress: () {},
+                      ).show();
+                    }
+                    // If the teacher is not available
+                    else {
+                      // Show teacher not available message
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.info,
+                        animType: AnimType.topSlide,
+                        title: 'Teacher Not Available',
+                        desc:
+                            'The teacher is not available at the moment. Please try again later or come to the office.',
+                      )..show();
+                    }
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -498,5 +546,17 @@ class drAnnonce extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _makePhoneCall(String phoneNumber) async {
+    final Uri phoneLaunch = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    if (await canLaunch(phoneLaunch.toString())) {
+      await launch(phoneLaunch.toString());
+    } else {
+      throw 'Could not launch $phoneLaunch';
+    }
   }
 }

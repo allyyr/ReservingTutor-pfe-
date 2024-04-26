@@ -45,6 +45,10 @@ dependencies:
   geolocator: ^11.0.0
   firebase_auth: ^4.19.2
   awesome_dialog: ^3.2.0
+  chargily_pay:
+    git:
+      url: https://github.com/Chargily/chargily-pay-dart.git
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:

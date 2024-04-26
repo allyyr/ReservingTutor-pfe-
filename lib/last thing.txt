@@ -1,41 +1,245 @@
+ Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.blue, width: 2),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height * 0.002,
+              width: size.width * 0.01,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  height: size.height * 0.01,
+                  width: size.width * 0.01,
+                ),
+                Container(
+                  height: size.height * 0.09,
+                  width: size.width * 0.2,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    border: Border.all(color: AppColors.blue, width: 2),
+                  ),
+                  child: const CircleAvatar(
+                    backgroundImage: AssetImage('images/highSchool.png'),
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.1,
+                ),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        nom,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Text(
+                        availability ? 'Available' : 'Not Available',
+                        style: TextStyle(
+                          color: availability ? Colors.green : Colors.red,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
+                const Text(
+                  'Module :',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  nomModule,
+                  style: TextStyle(
+                    color: AppColors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
+                const Text(
+                  'Price :',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  prix + ' DA', // Concatenate "DA" after prix
+                  style: TextStyle(
+                    color: AppColors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
+                const Text(
+                  'Number Of Hours : ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                /*Text(
+                nbrHours,
+                style: TextStyle(
+                  color: AppColors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              )*/
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
+                const Text(
+                  'Level :',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+
+                /*  Text(
+                niveau,
+                style: TextStyle(
+                  color: AppColors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              )*/
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    print("CALL PRESSEEEEEEED");
+                  },
+                  child: Container(
+                    child: const Center(
+                      child: Text(
+                        'Call',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.blue,
+                    ),
+                    width: size.height * 0.1,
+                    height: size.width * 0.085,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.37,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.blue,
+                    ),
+                    width: size.height * 0.1,
+                    height: size.width * 0.085,
+                    child: const Center(
+                      child: Text(
+                        'Réserver',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.047,
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  sign up //////////////
+  // ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sapfd/util/color.dart';
+import 'package:get/get.dart';
+import 'package:sapfd/login%20component/login.dart';
 import 'package:sapfd/util/custom_element.dart';
 import 'package:sapfd/view/controll_view.dart';
-import 'package:sapfd/view/forgot_password_view.dart';
-import 'package:sapfd/view/signUpPage.dart';
-import 'package:get/get.dart';
+import 'package:sapfd/view/homeScreenPage.dart';
+import 'package:sapfd/view/loginPage.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final _emailController = TextEditingController();
-
-  final _passwordController = TextEditingController();
-
+// ignore: camel_case_types
+class signUpPage extends StatelessWidget {
+  signUpPage({super.key});
   TextEditingController email = TextEditingController();
-
+  TextEditingController phoneNum = TextEditingController();
+  TextEditingController firstname = TextEditingController();
+  TextEditingController lastname = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController passwordConfirm = TextEditingController();
 
   @override
-  void initState() {
-    
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-  }
-
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
@@ -48,29 +252,22 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: size.height * 0.1,
+                height: size.height * 0.02,
               ),
-              Padding(
-                padding: const EdgeInsets.all(20),
+              const Padding(
+                padding: EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Login',
+                    Text(
+                      'Signup Page',
                       style: TextStyle(color: Colors.white, fontSize: 50),
                     ),
-                    SizedBox(
-                      height: size.height * 0.007,
-                    ),
-                    const Text(
-                      'Welcome back',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    )
                   ],
                 ),
               ),
               SizedBox(
-                height: size.height * 0.05,
+                height: size.height * 0.03,
               ),
               Container(
                 decoration: const BoxDecoration(
@@ -85,7 +282,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SizedBox(
-                        height: size.height * 0.09,
+                        height: size.height * 0.03,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -99,90 +296,125 @@ class _HomePageState extends State<HomePage> {
                             ]),
                         child: Column(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(color: Colors.grey))),
-                              child: TextField(
-                                controller: _emailController,
-                                decoration: const InputDecoration(
-                                    hintText: "Email or Phone number",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: InputBorder.none),
-                              ),
+                            champText(
+                              Teext: "Email",
+                              mycontroller: email,
+                            ),
+                            champText(
+                              Teext: "Phone Number",
+                              mycontroller: phoneNum,
+                            ),
+                            champText(
+                              Teext: "First Name",
+                              mycontroller: firstname,
+                            ),
+                            champText(
+                              Teext: "Family Name",
+                              mycontroller: lastname,
                             ),
                             CustomTextFiel(
                               pass: "Password",
-                              mycontroller: _passwordController,
+                              mycontroller: password,
                             ),
+                            /* CustomTextFiel(
+                              pass: "Confirm Password",
+                              mycontroller: passwordConfirm,
+                            ), */
                           ],
                         ),
                       ),
                       SizedBox(
-                        height: size.height * 0.05,
+                        height: size.height * 0.045,
+                      ),
+                      CustomLoginButton(
+                        title: "Signup",
+                        onnPressed: () async {
+                          // Trim whitespace from the email and validate format
+                          final trimmedEmail = email.text.trim();
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(trimmedEmail)) {
+                            print('Invalid email format');
+                            return; // Exit the signup process if email format is invalid
+                          }
+
+                          try {
+                            final credential = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: trimmedEmail,
+                              password: password
+                                  .text, // Use password.text to get the entered password
+                            );
+                            print('Signup successful');
+                            if (credential != null) {
+                              // Save user data to Firestore
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(credential.user!.uid)
+                                  .set({
+                                'email': trimmedEmail,
+                                'password': password.text,
+                                'phoneNum': phoneNum.text,
+                                'firstName': firstname.text,
+                                'lastName': lastname.text
+                                // Use password.text to get the entered password
+                                // Add more user data fields as needed
+                              });
+
+                              // Navigate to the home screen
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ControlView(
+                                    titre: 'Home',
+                                    userData: {},
+                                  ),
+                                ),
+                              );
+                            }
+                          } on FirebaseAuthException catch (e) {
+                            // Handle FirebaseAuth exceptions
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                            } else if (e.code == 'email-already-in-use') {
+                              print(
+                                  'The account already exists for that email.');
+                            } else {
+                              print('Error during signup: ${e.message}');
+                            }
+                          } catch (e) {
+                            // Handle other exceptions
+                            print('Error during signup: $e');
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.025,
                       ),
                       GestureDetector(
                           onTap: () {
-                            Get.to(const forgotPassword());
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => login()));
+                            Get.to(() => login(),
+                                transition: Transition.leftToRight,
+                                duration: const Duration(milliseconds: 599));
                           },
-                          child: const Text(
-                            'Forgot password ?',
-                            style: TextStyle(color: Colors.black, fontSize: 15),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'already have account ?',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 15),
+                              ),
+                              Text(
+                                ' Login',
+                                style: TextStyle(
+                                    color: Colors.green, fontSize: 18),
+                              ),
+                            ],
                           )),
-                      SizedBox(
-                        height: size.height * 0.07,
-                      ),
-                      CustomLoginButton(
-                          title: "Login",
-                          onnPressed: () async {
-                            try {
-                              final credential = await FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                      email: email.text,
-                                      password: password.text);
-                            } on FirebaseAuthException catch (e) {
-                              if (e.code == 'user-not-found') {
-                                print('No user found for that email.');
-                              } else if (e.code == 'wrong-password') {
-                                print('Wrong password provided for that user.');
-                              }
-                            }
-                          }
-                          ),
-
-                      /*  Get.to(const ControlView(
-                            titre: 'Home',
-                          )); */
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => signUpPage()));
-                          Get.to(() => signUpPage(),
-                              transition: Transition.rightToLeft,
-                              duration: const Duration(milliseconds: 500));
-                        },
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'New user ?',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                            ),
-                            Text(
-                              ' Create account',
-                              style:
-                                  TextStyle(color: Colors.green, fontSize: 18),
-                            )
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -194,60 +426,269 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-/*  title: "Login",
-                        backGrounfdColor: AppColors.blue,
-                        onnPressed: () async {
-                          // Trim whitespace from the email
-                          final trimmedEmail = email.text.trim();
 
-                          try {
-                            // Sign in the user with email and password
-                            final userCredential = await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                              email: trimmedEmail,
-                              password: password.text,
-                            );
 
-                            // If login is successful, fetch user data from Firestore
-                            if (userCredential.user != null) {
-                              final userData = await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(userCredential.user!.uid)
-                                  .get();
-                              // Extract user data from the document snapshot
-                              final email = userData.get('email');
-                              /*   final phoneNumber = userData.get('phoneNumber');
-                              final firstName = userData.get('firstName');
-                              final lastName = userData.get('lastName'); */
 
-                              // Navigate to the home screen, passing user data if needed
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ControlView(
-                                    titre: 'Home',
-                                    userData: {
-                                      'email': email,
-                                      /* 'phoneNumber': phoneNumber,
-                                      'firstName': firstName,
-                                      'lastName': lastName, */
-                                      // Add more user data fields as needed
-                                    },
-                                  ),
-                                ),
-                              );
-                            }
-                          } on FirebaseAuthException catch (e) {
-                            // Handle FirebaseAuth exceptions
-                            if (e.code == 'user-not-found') {
-                              print('No user found for that email.');
-                            } else if (e.code == 'wrong-password') {
-                              print('Wrong password provided for that user.');
-                            } else {
-                              print('Error during login: ${e.message}');
-                            }
-                          } catch (e) {
-                            // Handle other exceptions
-                            print('Error during login: $e');
-                          }
-                        }, */
+class drAnnonce extends StatelessWidget {
+  const drAnnonce({
+    super.key,
+    required this.image,
+    required this.nom,
+    // required this.description,
+    required this.nomModule,
+    required this.prix,
+    //required this.nbrHours,
+    //required this.niveau,
+    required this.onTap,
+    this.widht,
+    required this.availability,
+  });
+
+  final double? widht;
+  final String image, nom, nomModule, prix; //nbrHours, niveau description,
+  final bool availability;
+  final VoidCallback onTap;
+
+  @override
+   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.blue, width: 2),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height * 0.002,
+              width: size.width * 0.01,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  height: size.height * 0.01,
+                  width: size.width * 0.01,
+                ),
+                Container(
+                  height: size.height * 0.09,
+                  width: size.width * 0.2,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                    border: Border.all(color: AppColors.blue, width: 2),
+                  ),
+                  child: const CircleAvatar(
+                    backgroundImage: AssetImage('images/highSchool.png'),
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.1,
+                ),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        nom,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Text(
+                        availability ? 'Available' : 'Not Available',
+                        style: TextStyle(
+                          color: availability ? Colors.green : Colors.red,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
+                const Text(
+                  'Module :',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  nomModule,
+                  style: TextStyle(
+                    color: AppColors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
+                const Text(
+                  'Price :',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  prix + ' DA', // Concatenate "DA" after prix
+                  style: TextStyle(
+                    color: AppColors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    print("Call Pressed");
+                  },
+                  child: Container(
+                    child: const Center(
+                      child: Text(
+                        'Call',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.blue,
+                    ),
+                    width: size.height * 0.1,
+                    height: size.width * 0.085,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.37,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                   // Show confirmation dialog
+  bool? isConfirmed = await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Confirmation'),
+      content: Text('Are you sure you want to make a reservation?'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+          child: Text('Yes'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+          child: Text('No'),
+        ),
+      ],
+    ),
+  );
+
+  // If the user confirmed the reservation
+  if (isConfirmed == true) {
+    // Place the reservation using the API
+    try {
+      var checkoutResponse = await ChargilyPayService(apiKey: '', secret: '').createCheckout(
+        checkout: Checkout(
+          successUrl: 'https://your-success-url.com',
+          amount: 100, // Example amount, replace it with the actual price
+          currency: 'DZD', // Currency code
+          description: 'Reservation for $nomModule',
+        ),
+      );
+
+      // Check if the reservation was successful
+      if (checkoutResponse.statusCode == 200) {
+        // Show success message
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.SUCCES,
+          animType: AnimType.TOPSLIDE,
+          title: 'Success',
+          desc: 'Reservation successful!',
+          btnCancelOnPress: () {},
+        )..show();
+      } else {
+        // Show error message
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.ERROR,
+          animType: AnimType.TOPSLIDE,
+          title: 'Error',
+          desc: 'Failed to make a reservation. Please try again.',
+          btnCancelOnPress: () {},
+        )..show();
+      }
+    } catch (error) {
+      // Show error message
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.TOPSLIDE,
+        title: 'Error',
+        desc: 'Failed to make a reservation. Please try again.',
+        btnCancelOnPress: () {},
+      )..show();
+    }
+  
+},
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.blue,
+                    ),
+                    width: size.height * 0.1,
+                    height: size.width * 0.085,
+                    child: const Center(
+                      child: Text(
+                        'Réserver',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.047,
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }

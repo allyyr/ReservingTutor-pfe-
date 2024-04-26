@@ -280,6 +280,7 @@ class _primaryViewState extends State<primaryView> {
                             availability: tutor['availability'] ?? false,
                             nomModule: tutor['Subject'] ?? '',
                             prix: tutor['pricePerMonth'].toString(),
+                            phoneNumber: tutor['phoneNumber'],
                           ),
                     ],
                   ),

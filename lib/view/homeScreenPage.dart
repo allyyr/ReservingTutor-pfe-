@@ -62,11 +62,11 @@ class _homeScreenPageState extends State<homeScreenPage> {
                               ontPGoWidget: primaryView()),
                           ChoseModuleButton(
                               image: 'images/highSchool.png',
-                              text: 'gasdgfds',
+                              text: 'CEM',
                               ontPGoWidget: middleView()),
                           ChoseModuleButton(
                               image: 'images/highSchool.png',
-                              text: 'gasdgfds',
+                              text: 'Hightschool',
                               ontPGoWidget: highSchool()),
                           ChoseModuleButton(
                               image: 'images/highSchool.png',
