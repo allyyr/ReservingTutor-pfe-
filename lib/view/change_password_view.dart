@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sapfd/util/color.dart';
 import 'package:sapfd/util/custom_element.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Change_Password_view extends StatefulWidget {
   const Change_Password_view({Key? key});
@@ -105,8 +106,7 @@ class _ChangePasswordState extends State<Change_Password_view> {
                         // Passwords don't match, show dialog
                         AwesomeDialog(
                           context: context,
-                          dialogType:
-                              DialogType.error, // Use ERROR directly here
+                          dialogType: DialogType.error,
                           animType: AnimType.rightSlide,
                           title: 'Password Mismatch',
                           desc: 'New passwords do not match.',
@@ -129,17 +129,35 @@ class _ChangePasswordState extends State<Change_Password_view> {
 
                         // Check if old password is correct
                         if (user != null && user.uid != null) {
-                          // Change password
-                          await user.updatePassword(newPasswordController.text);
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.warning,
+                            animType: AnimType.bottomSlide,
+                            title: 'Are you sure?',
+                            desc: 'Do you really want to change your password?',
+                            btnCancelOnPress: () {},
+                            btnOkOnPress: () async {
+                              // Change password
+                              await user
+                                  .updatePassword(newPasswordController.text);
 
-                          // Show success message or navigate to another page
-                          print('Password changed successfully');
+                              // Update password in Firestore users collection
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user.uid)
+                                  .update(
+                                      {'password': newPasswordController.text});
+                              Navigator.pop(context);
+
+                              // Show success message or navigate to another page
+                              print('Password changed successfully');
+                            },
+                          )..show();
                         } else {
                           // Show error dialog if user or uid is null
                           AwesomeDialog(
                             context: context,
-                            dialogType:
-                                DialogType.error, // Use ERROR directly here
+                            dialogType: DialogType.error,
                             animType: AnimType.rightSlide,
                             title: 'Error',
                             desc: 'An error occurred. Please try again.',
@@ -150,8 +168,7 @@ class _ChangePasswordState extends State<Change_Password_view> {
                         // Handle errors
                         AwesomeDialog(
                           context: context,
-                          dialogType:
-                              DialogType.error, // Use ERROR directly here
+                          dialogType: DialogType.error,
                           animType: AnimType.rightSlide,
                           title: 'Error',
                           desc: 'Incorrect old password.',
