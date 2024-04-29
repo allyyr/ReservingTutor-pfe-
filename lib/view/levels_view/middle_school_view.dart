@@ -271,6 +271,7 @@ class _middleViewState extends State<middleView> {
                             nomModule: tutor['Subject'] ?? '',
                             prix: tutor['pricePerMonth'].toString(),
                             phoneNumber: tutor['phoneNumber'],
+                            tutorid: tutor.id,
                           ),
                     ],
                   ),

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sapfd/util/color.dart';
+import 'package:intl/intl.dart';
 
-// ignore: camel_case_types
 class Notification_view extends StatelessWidget {
-  const Notification_view({super.key});
+  const Notification_view({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: appBar(),
-      body: listView(),
+      body: reservationRequestList(),
     );
   }
 
@@ -27,20 +27,56 @@ class Notification_view extends StatelessWidget {
     );
   }
 
-  Widget listView() {
-    return ListView.separated(
-        itemBuilder: (context, index) {
-          return listViewItem(index);
-        },
-        separatorBuilder: (context, index) {
-          return const Divider(
-            height: 0,
+  Widget reservationRequestList() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('reservation_requests')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
           );
-        },
-        itemCount: 15);
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        List<QueryDocumentSnapshot> reservationRequests = snapshot.data!.docs;
+
+        if (reservationRequests.isEmpty) {
+          return Center(
+            child: Text('No reservation requests found.'),
+          );
+        }
+
+        return ListView.separated(
+          itemBuilder: (context, index) {
+            return reservationRequestItem(reservationRequests[index]);
+          },
+          separatorBuilder: (context, index) {
+            return const Divider(
+              height: 0,
+            );
+          },
+          itemCount: reservationRequests.length,
+        );
+      },
+    );
   }
 
-  Widget listViewItem(int index) {
+  Widget reservationRequestItem(QueryDocumentSnapshot reservationRequest) {
+    Map<String, dynamic> data =
+        reservationRequest.data() as Map<String, dynamic>;
+    Timestamp timestamp = data['date'] ?? Timestamp.now();
+    String description = data['description'] ?? '';
+    DateTime date = timestamp.toDate();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(date);
+    String time = DateFormat('hh:mm a').format(date);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
       child: Row(
@@ -53,9 +89,9 @@ class Notification_view extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  message(index),
-                  timeAndData(index),
-                  messagee(index),
+                  title(),
+                  timeAndData(formattedDate, time),
+                  message(description),
                 ],
               ),
             ),
@@ -65,62 +101,45 @@ class Notification_view extends StatelessWidget {
     );
   }
 
-  Widget message(int index) {
-    double textsize = 14;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Message',
-          style: TextStyle(
-            fontSize: textsize,
-            color: Colors.black,
-            fontWeight: FontWeight.bold,)
-          
-          ),
-          
-          ],
-      
-      
-    );
-  }
-   Widget messagee(int index) {
-    double textsize = 14;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-      
-          Text('Message description',
-          style: TextStyle(
-            fontSize: textsize,
-            
-            fontWeight: FontWeight.w400,)
-          
-          ),
-    
-          ],
-      
-      
+  Widget title() {
+    return Text(
+      'Reservation Request',
+      style: const TextStyle(
+        fontSize: 14,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 
-  Widget timeAndData(int index) {
+  Widget message(String description) {
+    return Text(
+      description,
+      style: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  Widget timeAndData(String date, String time) {
     return Container(
       margin: const EdgeInsets.only(top: 5),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '26-03-2024',
-            style: TextStyle(
+            date,
+            style: const TextStyle(
               fontSize: 10,
             ),
           ),
           Text(
-            '7:10 AM',
-            style: TextStyle(
+            time,
+            style: const TextStyle(
               fontSize: 10,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -128,7 +147,7 @@ class Notification_view extends StatelessWidget {
 
   Widget prefixIcon() {
     return Container(
-      height: 100,
+      height: 50,
       width: 50,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(

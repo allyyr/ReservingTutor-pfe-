@@ -284,6 +284,7 @@ class drAnnonce extends StatelessWidget {
     this.widht,
     required this.availability,
     this.phoneNumber,
+    required this.tutorid,
   });
 
   final double? widht;
@@ -291,6 +292,7 @@ class drAnnonce extends StatelessWidget {
   final bool availability;
   final VoidCallback onTap;
   final String? phoneNumber;
+  final String tutorid;
 
   @override
   Widget build(BuildContext context) {
@@ -484,27 +486,37 @@ class drAnnonce extends StatelessWidget {
                   onTap: () async {
                     // If the teacher is available
                     if (availability) {
-                      // Show confirmation dialog
-                      bool? isConfirmed = await AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.info,
-                        animType: AnimType.topSlide,
-                        title: 'Confirmation',
-                        desc: 'Are you sure you want to make a reservation?',
-                        btnOkOnPress: () async {
-                          // If the user confirmed the reservation
-                          // Show reservation confirmation message
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.info,
-                            animType: AnimType.topSlide,
-                            title: 'Reservation Request Sent!',
-                            desc:
-                                'Your reservation request has been sent successfully. We will send you a link for payment shortly, or you can come to the office.',
-                          )..show();
-                        },
-                        btnCancelOnPress: () {},
-                      ).show();
+                      // Check if the user has already made a reservation request to this tutor
+                      bool existingRequest =
+                          await hasExistingReservationRequest(
+                        FirebaseAuth.instance.currentUser!.uid,
+                        tutorid,
+                      );
+                      if (existingRequest) {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.topSlide,
+                          title: 'Error',
+                          desc:
+                              'You have already sent a reservation request to this tutor.',
+                        ).show();
+                      } else {
+                        // If the user hasn't already requested for this tutor, make a reservation request
+                        await makeReservationRequest(
+                          FirebaseAuth.instance.currentUser!.uid,
+                          tutorid,
+                        );
+                        // Show reservation confirmation message
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.info,
+                          animType: AnimType.topSlide,
+                          title: 'Reservation Request Sent!',
+                          desc:
+                              'Your reservation request has been sent successfully. We will send you a link for payment shortly, or you can come to the office.',
+                        ).show();
+                      }
                     }
                     // If the teacher is not available
                     else {
@@ -516,13 +528,13 @@ class drAnnonce extends StatelessWidget {
                         title: 'Teacher Not Available',
                         desc:
                             'The teacher is not available at the moment. Please try again later or come to the office.',
-                      )..show();
+                      ).show();
                     }
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: AppColors.blue,
+                      color: Colors.blue,
                     ),
                     width: size.height * 0.1,
                     height: size.width * 0.085,
@@ -557,6 +569,39 @@ class drAnnonce extends StatelessWidget {
       await launch(phoneLaunch.toString());
     } else {
       throw 'Could not launch $phoneLaunch';
+    }
+  }
+
+  // Function to check if a user has already made a reservation request to a tutor
+  Future<bool> hasExistingReservationRequest(
+      String userId, String tutorId) async {
+    try {
+      QuerySnapshot reservationRequests = await FirebaseFirestore.instance
+          .collection('reservation_requests')
+          .where('userId', isEqualTo: userId)
+          .where('tutorId', isEqualTo: tutorId)
+          .where('status', isEqualTo: 'pending')
+          .get();
+      return reservationRequests.docs.isNotEmpty;
+    } catch (error) {
+      print('Error checking reservation request: $error');
+      return false;
+    }
+  }
+
+  // Function to make a reservation request
+  Future<void> makeReservationRequest(String userId, String tutorId) async {
+    try {
+      await FirebaseFirestore.instance.collection('reservation_requests').add({
+        'userId': userId,
+        'tutorId': tutorId,
+        'status': 'pending',
+        'timestamp': FieldValue.serverTimestamp(),
+        'description':
+            'Your reservation request for ${nom.toUpperCase()} has been sent. Please wait for the tutor\'s response.'
+      });
+    } catch (error) {
+      print('Error making reservation request: $error');
     }
   }
 }

@@ -337,9 +337,7 @@ class twoButtonsSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5), // Add border radius
               ),
               child: GestureDetector(
-                onTap: () {
-                  // Handle tap on the first button
-                },
+                onTap: () {},
                 child: Container(
                   padding:
                       const EdgeInsets.all(10), // Add padding to the container

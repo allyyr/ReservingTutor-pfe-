@@ -281,6 +281,7 @@ class _primaryViewState extends State<primaryView> {
                             nomModule: tutor['Subject'] ?? '',
                             prix: tutor['pricePerMonth'].toString(),
                             phoneNumber: tutor['phoneNumber'],
+                            tutorid: tutor.id,
                           ),
                     ],
                   ),

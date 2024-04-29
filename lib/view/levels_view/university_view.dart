@@ -94,7 +94,7 @@ class universityView extends StatelessWidget {
                     nomModule: 'Math',
                     availability: false,
 
-                    prix: '2000 DA',
+                    prix: '2000 DA', tutorid: '',
                     // nbrHours: '8',
                     // niveau: '4AP'
                   ),
