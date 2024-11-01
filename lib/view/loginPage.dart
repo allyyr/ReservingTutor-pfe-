@@ -4,10 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sapfd/util/color.dart';
 import 'package:sapfd/util/custom_element.dart';
-import 'package:sapfd/view/controll_view.dart';
+import 'package:sapfd/view/controll_view_S.dart';
 import 'package:sapfd/view/forgot_password_view.dart';
 import 'package:sapfd/view/signUpPage.dart';
 import 'package:get/get.dart';
+/*
+
+
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -259,3 +262,4 @@ class _HomePageState extends State<HomePage> {
                             print('Error during login: $e');
                           }
                         }, */
+ */

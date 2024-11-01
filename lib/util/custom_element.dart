@@ -16,7 +16,8 @@ class CustomLoginButton extends StatelessWidget {
       required this.title,
       this.backGrounfdColor,
       required this.onnPressed,
-      this.phoneNumber});
+      this.phoneNumber,
+      Null Function()? onPressed});
   final String title;
   final Color? backGrounfdColor;
   final VoidCallback onnPressed;

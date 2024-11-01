@@ -85,6 +85,7 @@ class ProfileHomeView extends StatelessWidget {
                     onnPressed: () {
                       Get.to(EditProfile());
                     },
+                    onPressed: () {},
                   ),
                   SizedBox(
                     height: size.height * 0.04,
@@ -116,11 +117,12 @@ class ProfileHomeView extends StatelessWidget {
                     title: 'Logout',
                     icone: Icons.logout_rounded,
                     onPress: () {
-                      Get.to(login());
+                      FirebaseAuth.instance.signOut(); // Sign out the user
+                      Get.offAll(() => login()); // Navigate to login page
                     },
                     endIcon: false,
                     textColor: Colors.red,
-                  )
+                  ),
                 ],
               ),
             ),

@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sapfd/login%20component/login.dart';
 import 'package:sapfd/util/custom_element.dart';
-import 'package:sapfd/view/controll_view.dart';
+import 'package:sapfd/view/controll_view_S.dart';
 import 'package:sapfd/view/homeScreenPage.dart';
 import 'package:sapfd/view/loginPage.dart';
+import 'package:sapfd/view/teacher%20view/controll_view_T.dart';
 
 // ignore: camel_case_types
 class signUpPage extends StatelessWidget {
-  signUpPage({super.key});
+  final String role;
+
+  signUpPage({super.key, required this.role});
   TextEditingController email = TextEditingController();
   TextEditingController phoneNum = TextEditingController();
   TextEditingController firstname = TextEditingController();
@@ -134,21 +137,31 @@ class signUpPage extends StatelessWidget {
                                 'password': password.text,
                                 'phoneNum': phoneNum.text,
                                 'firstName': firstname.text,
-                                'lastName': lastname.text
+                                'lastName': lastname.text,
+                                'role': role,
+
                                 // Use password.text to get the entered password
                                 // Add more user data fields as needed
                               });
 
                               // Navigate to the home screen
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ControlView(
-                                    titre: 'Home',
-                                    userData: {},
+                              if (role == 'student') {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ControlView_S(titre: 'Home'),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ControlView_T(titre: 'Home'),
+                                  ),
+                                );
+                              }
                             }
                           } on FirebaseAuthException catch (e) {
                             // Handle FirebaseAuth exceptions
@@ -165,6 +178,7 @@ class signUpPage extends StatelessWidget {
                             print('Error during signup: $e');
                           }
                         },
+                        onPressed: () {},
                       ),
                       SizedBox(
                         height: size.height * 0.025,
