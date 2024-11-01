@@ -12,7 +12,6 @@
        <!-- Add your metadata here -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDRqOCS9tx8iIpMMrcpS7CiTQtKYbRJ33c"/>
     
         <!-- Add your permissions here -->
 
